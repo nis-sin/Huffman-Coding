@@ -45,9 +45,6 @@ def encodeHuffmanCodes(node: Node, huffmanCodes: dict, code:str = "") -> str:
 
 def decodeHuffmanCodes(text: str, frequenices: dict) -> str:
     root = createHuffmanTree(frequenices)
-    huffmanCodesToTest = {}
-    encodeHuffmanCodes(root, huffmanCodesToTest)
-    print(huffmanCodesToTest)
     currentNode = root
     decodedText = ""
     for char in text:
