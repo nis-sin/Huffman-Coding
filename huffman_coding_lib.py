@@ -1,17 +1,21 @@
 from priority_queue import PriorityQueue, Node
 
-def createHuffmanTree(text) -> Node:
+def calculateFrequencies(text: str) -> dict:
     frequencies = {}
-    pq = PriorityQueue()
-
     # Calculating the frequency of each character in the text
     for char in text:
         frequencies[char] = frequencies.get(char, 0) + 1
+    
+    return frequencies
+
+
+def createHuffmanTree(frequencies: dict) -> Node:
+    pq = PriorityQueue()
 
     # Creating a node for each character and adding it to the priority queue
     for char, freq in frequencies.items():
         pq.enqueue(Node(char, freq))
-
+    
     while pq.getLength() > 1:       # last node remanining is the root of the Huffman tree
         first = pq.dequeue()
         second = pq.dequeue()
@@ -20,7 +24,7 @@ def createHuffmanTree(text) -> Node:
         internalNode.setRight(second)
         pq.enqueue(internalNode)
     
-    return pq.dequeue()     # returns the root of th Huffman tree
+    return pq.dequeue()     # returns the root of the Huffman tree
 
 
 def encodeHuffmanCodes(node: Node, huffmanCodes: dict, code:str = "") -> str:
@@ -39,7 +43,11 @@ def encodeHuffmanCodes(node: Node, huffmanCodes: dict, code:str = "") -> str:
     encodeHuffmanCodes(node.getRight(), huffmanCodes, code + "1")       # Traverse right
 
 
-def decodeHuffmanCodes(text: str, root: Node) -> str:
+def decodeHuffmanCodes(text: str, frequenices: dict) -> str:
+    root = createHuffmanTree(frequenices)
+    huffmanCodesToTest = {}
+    encodeHuffmanCodes(root, huffmanCodesToTest)
+    print(huffmanCodesToTest)
     currentNode = root
     decodedText = ""
     for char in text:
