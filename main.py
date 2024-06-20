@@ -1,5 +1,14 @@
 from huffman_coding_lib import createHuffmanTree, encodeHuffmanCodes, decodeHuffmanCodes, calculateFrequencies
-from json import dumps, loads
+from argparse import ArgumentParser
+
+
+def parse_args():
+    parser = ArgumentParser(description = "Program to compress and decompress text files using Huffman Coding.", usage = "%(prog)s [options] <file>")
+    parser.add_argument('file', type=str, help='File to compress or decompress')
+    parser.add_argument('-c', "--compress", action = "store_true", help="Compress text file")
+    parser.add_argument('-d', "--decompress", action = "store_true", help="Compress text file")
+    return parser.parse_args()
+
 
 def compressText(file: str) -> None:
     with open(file, 'r', encoding='utf-8') as f:
@@ -42,14 +51,18 @@ def decompressText(file: str) -> str:
     
 
 def main():
-    compressText("test.txt")
-    decodedText = decompressText("compressed")
-
-    with open('test.txt', 'r') as f:
-        text = f.read()
+    args = parse_args()
+    inputFile = args.file
+    decodedText = ""
+    if args.compress:
+        print("Compressing")
+        compressText(inputFile)
+    if args.decompress:
+        print("Decompressing")
+        decodedText = decompressText(inputFile)
     
-    if text == decodedText:
-        print("Compression and Decompression successful")
+    print(decodedText)
+
 
 if __name__ == '__main__':
     main()
