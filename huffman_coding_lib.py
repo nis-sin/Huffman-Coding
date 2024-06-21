@@ -19,7 +19,7 @@ def createHuffmanTree(frequencies: dict) -> Node:
     while pq.getLength() > 1:       # last node remanining is the root of the Huffman tree
         first = pq.dequeue()
         second = pq.dequeue()
-        internalNode = Node(value=None, priority=(first.getPriority() + second.getPriority()), isInternal=True)
+        internalNode = Node(value=None, priority=(first.getPriority() + second.getPriority()))
         internalNode.setLeft(first)
         internalNode.setRight(second)
         pq.enqueue(internalNode)
@@ -35,7 +35,7 @@ def encodeHuffmanCodes(node: Node, huffmanCodes: dict, code:str = "") -> str:
     if huffmanCodes.get(node.getValue(), -1) != -1:     # If the value is already encoded, memoization
         return None
     
-    if node.isInternal() == False:  # If the node is a leaf node, base case
+    if node.getLeft() == None and node.getRight() == None:  # If the node is a leaf node, base case
         huffmanCodes[node.getValue()] = code
         return None
 
@@ -53,7 +53,7 @@ def decodeHuffmanCodes(text: str, frequenices: dict) -> str:
         elif char == "1":           # Traverse right when char is 1
             currentNode = currentNode.getRight()
         
-        if currentNode.isInternal() == False:           # leaf node is reached or character is found
+        if currentNode.getLeft() == None and currentNode.getRight() == None:           # leaf node is reached or character is found
             decodedText += currentNode.getValue()
             currentNode = root          # reset current node to root once leaf is reached / character is found
     return decodedText

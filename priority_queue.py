@@ -1,10 +1,9 @@
 class Node:
-    def __init__(self, value: int, priority: int, isInternal: bool = False):
+    def __init__(self, value: int, priority: int):
         self.__value: int = value
         self.__priority: int = priority     # Priority == frequency of the character
         self.__left: Node = None
         self.__right: Node = None
-        self.__isInternal: bool = isInternal # True if the node is an internal node, False otherwise
     
     def getValue(self) -> int:
         return self.__value
